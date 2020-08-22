@@ -38,14 +38,14 @@ func (s *service) Get(ctx context.Context, ID string) (song GetResp, err error){
 	}
 
 	song = GetResp {
-		ID:	tempSong.ID,
-		Title: tempSong.Title,
-		Length: tempSong.Length,
-		ArtistID: tempSong.ArtistID,
+		ID:			tempSong.ID,
+		Title: 		tempSong.Title,
+		Length: 	tempSong.Length,
+		ArtistID: 	tempSong.ArtistID,
 		ComposerID: tempSong.ComposerID,
-		Lyrics: tempSong.Lyrics,
-		Path: tempSong.Path,
-		Image: tempSong.Image,
+		Lyrics: 	tempSong.Lyrics,
+		Path: 		tempSong.Path,
+		Image: 		tempSong.Image,
 	}
 
 	return
@@ -61,14 +61,14 @@ func (s *service) List(ctx context.Context) (res [] GetResp, err error){
 		s := &songs[i]
 
 		song := GetResp{
-			ID: s.ID,
-			Title: s.Title,
-			Length: s.Length,
-			ArtistID: s.ArtistID,
+			ID: 		s.ID,
+			Title: 		s.Title,
+			Length: 	s.Length,
+			ArtistID: 	s.ArtistID,
 			ComposerID: s.ComposerID,
-			Lyrics: s.Lyrics,
-			Path: s.Path,
-			Image: s.Image,
+			Lyrics: 	s.Lyrics,
+			Path: 		s.Path,
+			Image: 		s.Image,
 		}
 
 		res = append(res, song)
