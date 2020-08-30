@@ -33,7 +33,7 @@ func NewService(accountRepo model.AccountRepo) Service {
 	}
 }
 
-func (s *service) Get(ctx context.Context, username string) (account model.Account, err error) {
+func (s *service) Get1(ctx context.Context, username string) (account model.Account, err error) {
 	if len(username) < 1 {
 		err = errInvalidArgument
 		return
@@ -41,7 +41,7 @@ func (s *service) Get(ctx context.Context, username string) (account model.Accou
 	return s.accountRepo.Get1(username)
 }
 
-func (s *service) Get1(ctx context.Context, id string) (account model.Account, err error) {
+func (s *service) Get(ctx context.Context, id string) (account model.Account, err error) {
 	if len(id) < 1 {
 		err = errInvalidArgument
 		return
