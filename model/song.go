@@ -17,4 +17,5 @@ type SongRepo interface {
 	Add(song Song) (err error)
 	Get(ID string) (song Song, err error)
 	List() (song []Song, err error)
+	Update(song Song, Title string) (err error)
 }
