@@ -11,7 +11,7 @@ var (
 
 type Service interface {
 	Get(ctx context.Context, ID string) (res GetResp, err error)
-	Add(ctx context.Context, title string, length time.Time, artistID string, composerID string, lyrics string, path string, img string)
+	Add(ctx context.Context, title string, length time.Time, artistID string, composerID string, lyrics string, path string, img string) (songID string, err error)
 	List(ctx context.Context) (res []GetResp, err error)
 }
 
