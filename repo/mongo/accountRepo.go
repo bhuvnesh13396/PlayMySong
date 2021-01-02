@@ -33,9 +33,9 @@ func (repo *accountRepo) Add(a model.Account) (err error) {
 	return
 }
 
-func (repo *accountRepo) Get(id string) (a model.Account, err error) {
+func (repo *accountRepo) Get(username string) (a model.Account, err error) {
 	collection := repo.db.Database("test").Collection("users")
-	filter := bson.D{{"id", id}}
+	filter := bson.D{{"username", username}}
 	err = collection.FindOne(context.TODO(), filter).Decode(&a)
 	if err != nil {
 		log.Fatal(err)
@@ -45,9 +45,9 @@ func (repo *accountRepo) Get(id string) (a model.Account, err error) {
 	return
 }
 
-func (repo *accountRepo) Get1(username string) (a model.Account, err error) {
+func (repo *accountRepo) Get1(id string) (a model.Account, err error) {
 	collection := repo.db.Database("test").Collection("users")
-	filter := bson.D{{"username", username}}
+	filter := bson.D{{"id", id}}
 	err = collection.FindOne(context.TODO(), filter).Decode(&a)
 	if err != nil {
 		log.Fatal(err)
