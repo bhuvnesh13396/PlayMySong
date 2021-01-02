@@ -92,7 +92,7 @@ func (repo *songRepo) GetAll() (allSongs []model.Song, err error) {
 			log.Fatal(err)
 		}
 
-		allAccounts = append(allAccounts, a)
+		allSongs = append(allSongs, a)
 	}
 
 	if err := cur.Err(); err != nil {

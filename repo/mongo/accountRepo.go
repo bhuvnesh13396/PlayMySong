@@ -57,9 +57,9 @@ func (repo *accountRepo) Get1(username string) (a model.Account, err error) {
 	return
 }
 
-func (repo *accountRepo) Update(id string, name string) (err error) {
+func (repo *accountRepo) Update(userName string, name string) (err error) {
 	collection := repo.db.Database("test").Collection("users")
-	filter := bson.D{{"id", id}}
+	filter := bson.D{{"username", userName}}
 	update := bson.D{
 		{"$set", bson.D{
 			{"name", name},
