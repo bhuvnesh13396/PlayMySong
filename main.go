@@ -14,6 +14,7 @@ import (
 
 	"github.com/bhuvnesh13396/PlayMySong/account"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
+	"github.com/bhuvnesh13396/PlayMySong/song"
 	_ "github.com/lib/pq"
 )
 
@@ -57,10 +58,21 @@ func main() {
 	// accountService = account.NewAuthService(accountService, authService)
 	accountHandler := account.NewHandler(accountService)
 
+	songRepo, err := mongoDB.NewSongRepo(client)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	songService := song.NewService(songRepo)
+	songHandler := song.NewHandler(songService)
+
 	r := http.NewServeMux()
 
 	r.Handle("/account", accountHandler)
 	r.Handle("/account/", accountHandler)
+
+	r.Handle("/song", songHandler)
+	r.Handle("/song/", songHandler)
 
 	log.Println("listening on", ":8080")
 	err = http.ListenAndServe(":8080", r)

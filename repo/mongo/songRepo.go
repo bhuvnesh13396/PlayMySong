@@ -33,9 +33,9 @@ func (repo *songRepo) Add(s model.Song) (err error) {
 	return
 }
 
-func (repo *songRepo) Get(id string) (s model.Song, err error) {
+func (repo *songRepo) Get(songName string) (s model.Song, err error) {
 	collection := repo.db.Database("test").Collection("songs")
-	filter := bson.D{{"id", id}}
+	filter := bson.D{{"title", songName}}
 	err = collection.FindOne(context.TODO(), filter).Decode(&s)
 	if err != nil {
 		log.Fatal(err)

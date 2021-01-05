@@ -1,6 +1,13 @@
 package model
 
-import "time"
+import (
+	"errors"
+	"time"
+)
+
+var (
+	SongNotFound = errors.New("Song not found")
+)
 
 type Song struct {
 	ID       string    `json:"id"`

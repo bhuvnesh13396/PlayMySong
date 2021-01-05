@@ -63,7 +63,7 @@ func MakeGet1Endpoint(s Service) kit.Endpoint {
 	}
 }
 
-func (e Get1Endpoint) Get1(ctx context.Context, id string) (account model.Account, err error) {
+func (e Get1Endpoint) Get1(ctx context.Context, id string) (song model.Song, err error) {
 	request := get1Request{
 		ID: id,
 	}
