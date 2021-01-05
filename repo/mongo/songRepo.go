@@ -75,7 +75,7 @@ func (repo *songRepo) Update(id string, title string) (err error) {
 	return
 }
 
-func (repo *songRepo) GetAll() (allSongs []model.Song, err error) {
+func (repo *songRepo) List() (allSongs []model.Song, err error) {
 	findOptions := options.Find()
 	collection := repo.db.Database("test").Collection("songs")
 	cur, err := collection.Find(context.TODO(), bson.D{{}}, findOptions)

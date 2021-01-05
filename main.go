@@ -63,7 +63,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	songService := song.NewService(songRepo)
+	songService := song.NewService(songRepo, accountRepo)
 	songHandler := song.NewHandler(songService)
 
 	r := http.NewServeMux()

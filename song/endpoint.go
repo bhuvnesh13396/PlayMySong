@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/bhuvnesh13396/PlayMySong/common/kit"
-	"github.com/bhuvnesh13396/PlayMySong/model"
 )
 
 type GetEndpoint kit.Endpoint
@@ -27,7 +26,7 @@ type getRequest struct {
 }
 
 type getResponse struct {
-	Song model.Song `json:"song"`
+	Song SongResp `json:"song"`
 }
 
 func MakeGetEndpoint(s Service) kit.Endpoint {
@@ -38,7 +37,7 @@ func MakeGetEndpoint(s Service) kit.Endpoint {
 	}
 }
 
-func (e GetEndpoint) Get(ctx context.Context, songName string) (song model.Song, err error) {
+func (e GetEndpoint) Get(ctx context.Context, songName string) (song SongResp, err error) {
 	request := getRequest{
 		SongName: songName,
 	}
@@ -52,7 +51,7 @@ type get1Request struct {
 }
 
 type get1Response struct {
-	Song model.Song `json:"song"`
+	Song SongResp `json:"song"`
 }
 
 func MakeGet1Endpoint(s Service) kit.Endpoint {
@@ -63,7 +62,7 @@ func MakeGet1Endpoint(s Service) kit.Endpoint {
 	}
 }
 
-func (e Get1Endpoint) Get1(ctx context.Context, id string) (song model.Song, err error) {
+func (e Get1Endpoint) Get1(ctx context.Context, id string) (song SongResp, err error) {
 	request := get1Request{
 		ID: id,
 	}
