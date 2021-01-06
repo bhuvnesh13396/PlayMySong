@@ -45,17 +45,17 @@ func (repo *songRepo) Get(songName string) (s model.Song, err error) {
 	return
 }
 
-// func (repo *songRepo) Get1(username string) (a model.Account, err error) {
-// 	collection := repo.db.Database("test").Collection("users")
-// 	filter := bson.D{{"username", username}}
-// 	err = collection.FindOne(context.TODO(), filter).Decode(&a)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
+func (repo *songRepo) Get1(ID string) (s model.Song, err error) {
+	collection := repo.db.Database("test").Collection("songs")
+	filter := bson.D{{"id", ID}}
+	err = collection.FindOne(context.TODO(), filter).Decode(&s)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-// 	fmt.Printf("Found a single document: %+v\n", a)
-// 	return
-// }
+	fmt.Printf("Found a single document: %+v\n", s)
+	return
+}
 
 func (repo *songRepo) Update(id string, title string) (err error) {
 	collection := repo.db.Database("test").Collection("songs")

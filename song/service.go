@@ -71,15 +71,43 @@ func (s *service) Get(ctx context.Context, songName string) (song SongResp, err 
 	return song, nil
 }
 
-func (s *service) Get1(ctx context.Context, Id string) (song SongResp, err error) {
-	// TO BE IMPLEMENTED
-	song = SongResp{}
+func (s *service) Get1(ctx context.Context, ID string) (song SongResp, err error) {
+
+	tempSong, err := s.songRepo.Get1(ID)
+	if err != nil {
+		return
+	}
+
+	composer, err := s.accountRepo.Get1(tempSong.ComposerID)
+	artist, err := s.accountRepo.Get1(tempSong.ArtistID)
+
+	song = SongResp{
+		Title:  tempSong.Title,
+		Length: tempSong.Length,
+
+		Artist: User{
+			ID:       artist.ID,
+			Name:     artist.Name,
+			Username: artist.Username,
+		},
+
+		Composer: User{
+			ID:       composer.ID,
+			Name:     composer.Name,
+			Username: composer.Username,
+		},
+
+		Lyrics: tempSong.Lyrics,
+		Path:   tempSong.Path,
+		Image:  tempSong.Image,
+	}
+
 	return song, nil
 }
 
-func (s *service) Update(ctx context.Context, id string, title string) (err error) {
-	// TO BE IMPLEMENTED
-	return nil
+func (s *service) Update(ctx context.Context, ID string, title string) (err error) {
+	err = s.songRepo.Update(ID, title)
+	return
 }
 
 func (s *service) List(ctx context.Context) (res []SongResp, err error) {
