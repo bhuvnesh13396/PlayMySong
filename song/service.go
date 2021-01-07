@@ -2,6 +2,7 @@ package song
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/bhuvnesh13396/PlayMySong/common/err"
@@ -11,6 +12,8 @@ import (
 
 var (
 	errInvalidArgument = err.New(101, "Invalid Arguments.")
+	errNoComposerFound = err.New(102, "No Composer Found")
+	errNoArtistFound   = err.New(103, "No Artist Found")
 )
 
 type Service interface {
@@ -40,12 +43,22 @@ func (s *service) Get(ctx context.Context, songName string) (song SongResp, err 
 	}
 
 	tempSong, err := s.songRepo.Get(songName)
+	fmt.Printf("Song returned from DB %+v\n", tempSong)
 	if err != nil {
 		return
 	}
 
 	composer, err := s.accountRepo.Get1(tempSong.ComposerID)
+	if err != nil {
+		err = errNoComposerFound
+		return
+	}
+
 	artist, err := s.accountRepo.Get1(tempSong.ArtistID)
+	if err != nil {
+		err = errNoArtistFound
+		return
+	}
 
 	song = SongResp{
 		Title:  tempSong.Title,
@@ -79,7 +92,14 @@ func (s *service) Get1(ctx context.Context, ID string) (song SongResp, err error
 	}
 
 	composer, err := s.accountRepo.Get1(tempSong.ComposerID)
+	if err != nil {
+		return SongResp{}, err
+	}
+
 	artist, err := s.accountRepo.Get1(tempSong.ArtistID)
+	if err != nil {
+		return SongResp{}, err
+	}
 
 	song = SongResp{
 		Title:  tempSong.Title,

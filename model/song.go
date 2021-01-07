@@ -22,8 +22,8 @@ type Song struct {
 
 type SongRepo interface {
 	Add(song Song) (err error)
-	Get(ID string) (song Song, err error)
-
+	Get(songName string) (song Song, err error)
+	Get1(ID string) (song Song, err error)
 	List() (song []Song, err error)
 	Update(ID string, Title string) (err error)
 }

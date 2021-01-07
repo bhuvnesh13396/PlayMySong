@@ -49,12 +49,13 @@ func (repo *songRepo) Get1(ID string) (s model.Song, err error) {
 	collection := repo.db.Database("test").Collection("songs")
 	filter := bson.D{{"id", ID}}
 	err = collection.FindOne(context.TODO(), filter).Decode(&s)
+	fmt.Println("err", err)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Printf("Found a single document: %+v\n", s)
-	return
+	return s, nil
 }
 
 func (repo *songRepo) Update(id string, title string) (err error) {
