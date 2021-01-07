@@ -13,6 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/bhuvnesh13396/PlayMySong/account"
+	"github.com/bhuvnesh13396/PlayMySong/common/kit"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
 	"github.com/bhuvnesh13396/PlayMySong/song"
 	_ "github.com/lib/pq"
@@ -46,7 +47,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// logger := kit.NewJSONLogger(os.Stdout)
+	logger := kit.NewJSONLogger(os.Stdout)
 
 	accountRepo, err := mongoDB.NewAccountRepo(client)
 	if err != nil {
@@ -54,7 +55,7 @@ func main() {
 	}
 
 	accountService := account.NewService(accountRepo)
-	// accountService = account.NewLogService(accountService, kit.LoggerWith(logger, "service", "Account"))
+	accountService = account.NewLogService(accountService, kit.LoggerWith(logger, "service", "Account"))
 	// accountService = account.NewAuthService(accountService, authService)
 	accountHandler := account.NewHandler(accountService)
 
@@ -64,6 +65,7 @@ func main() {
 	}
 
 	songService := song.NewService(songRepo, accountRepo)
+	songService = song.NewLogService(songService, kit.LoggerWith(logger, "service", "Song"))
 	songHandler := song.NewHandler(songService)
 
 	r := http.NewServeMux()
