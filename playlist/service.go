@@ -14,8 +14,8 @@ var (
 type Service interface {
 	Get(ctx context.Context, ID string) (playlist PlaylistResp, err error)
 	Add(ctx context.Context, title string, description string, songIDs []string) (playlistID string, err error)
-	List() (playlists []PlaylistResp, err error)
-	Update(ID string, songsIDs []string) (err error)
+	List() (ctx context.Context, playlists []PlaylistResp, err error)
+	Update(ctx context.Context, ID string, songsIDs []string) (err error)
 }
 
 type service struct{
