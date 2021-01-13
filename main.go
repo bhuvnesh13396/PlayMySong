@@ -12,6 +12,7 @@ import (
 	"github.com/bhuvnesh13396/PlayMySong/account"
 	"github.com/bhuvnesh13396/PlayMySong/common/kit"
 	"github.com/bhuvnesh13396/PlayMySong/like"
+	"github.com/bhuvnesh13396/PlayMySong/playlist"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
 	"github.com/bhuvnesh13396/PlayMySong/song"
 	_ "github.com/lib/pq"
@@ -77,6 +78,15 @@ func main() {
 	likeService = like.NewLogService(likeService, kit.LoggerWith(logger, "service", "Like"))
 	likeHandler := like.NewHandler(likeService)
 
+	playlistRepo, err := mongoDB.NewPlaylistRepo(client)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	playlistService := playlist.NewService(songRepo, playlistRepo)
+	playlistService = playlist.NewLogService(playlistService, kit.LoggerWith(logger, "service", "Playlist"))
+	playlistHandler := playlist.NewHandler(playlistService)
+
 	r := http.NewServeMux()
 
 	r.Handle("/account", accountHandler)
@@ -87,6 +97,9 @@ func main() {
 
 	r.Handle("/like", likeHandler)
 	r.Handle("/like/", likeHandler)
+
+	r.Handle("/playlist", playlistHandler)
+	r.Handle("/playlist/", playlistHandler)
 
 	log.Println("listening on", ":8080")
 	err = http.ListenAndServe(":8080", r)

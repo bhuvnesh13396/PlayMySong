@@ -9,10 +9,11 @@ var (
 )
 
 type Playlist struct {
-	ID      string   `json:"id"`
-	Title   string   `json:"title"`
-	Access  string   `json:"access"` // "Public/Private/Shared/Featured"
-	SongIDs []string `json:"songs_ids"`
+	ID      		string   `json:"id"`
+	Title   		string   `json:"title"`
+	Description	string	`json:"descritption"`
+	Access  		string   `json:"access"` // "Public/Private/Shared/Featured"
+	SongIDs 		[]string `json:"songs_ids"`
 }
 
 type PlaylistRepo interface {
