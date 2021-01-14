@@ -12,6 +12,7 @@ import (
 	"github.com/bhuvnesh13396/PlayMySong/account"
 	"github.com/bhuvnesh13396/PlayMySong/common/kit"
 	"github.com/bhuvnesh13396/PlayMySong/like"
+	"github.com/bhuvnesh13396/PlayMySong/category"
 	"github.com/bhuvnesh13396/PlayMySong/playlist"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
 	"github.com/bhuvnesh13396/PlayMySong/song"
@@ -87,6 +88,16 @@ func main() {
 	playlistService = playlist.NewLogService(playlistService, kit.LoggerWith(logger, "service", "Playlist"))
 	playlistHandler := playlist.NewHandler(playlistService)
 
+	categoryRepo, err := mongoDB.NewCategoryRepo(client)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	categoryService := category.NewService(songRepo, categoryRepo)
+	categoryService = category.NewLogService(categoryService, kit.LoggerWith(logger, "service", "Category"))
+	categoryHandler := category.NewHandler(categoryService)
+
+
 	r := http.NewServeMux()
 
 	r.Handle("/account", accountHandler)
@@ -100,6 +111,9 @@ func main() {
 
 	r.Handle("/playlist", playlistHandler)
 	r.Handle("/playlist/", playlistHandler)
+
+	r.Handle("/category", categoryHandler)
+	r.Handle("/category/", categoryHandler)
 
 	log.Println("listening on", ":8080")
 	err = http.ListenAndServe(":8080", r)
