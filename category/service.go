@@ -15,8 +15,8 @@ var (
 
 type Service interface {
 	Get(ctx context.Context, ID string) (category CategoryResp, err error)
-	Add(ctx context.Context, title string, type string, songIDs []string) (categoryID string, err error)
-	List(ctx context.Context) (categories []categoryResp, err error)
+	Add(ctx context.Context, title string, category_type string, songIDs []string) (categoryID string, err error)
+	List(ctx context.Context) (categories []CategoryResp, err error)
 	Update(ctx context.Context, ID string, songsIDs []string) (err error)
 }
 
@@ -25,7 +25,7 @@ type service struct {
 	categoryRepo 	model.CategoryRepo
 }
 
-func NewService(songRepo model.SongRepo, categoryRepo model.categoryRepo) Service {
+func NewService(songRepo model.SongRepo, categoryRepo model.CategoryRepo) Service {
 	return &service{
 		songRepo: 	songRepo,
 		categoryRepo: categoryRepo,
@@ -40,7 +40,7 @@ func (s *service) Get(ctx context.Context, ID string) (category CategoryResp, er
 
 	dbcategory, err := s.categoryRepo.Get(ID)
 	if err != nil {
-		err = errNocategoryFound
+		err = errNoCategoryFound
 		return
 	}
 
@@ -73,11 +73,11 @@ func (s *service) Get(ctx context.Context, ID string) (category CategoryResp, er
 	return
 }
 
-func (s *service) Add(ctx context.Context, title string, type string, songIDs []string) (categoryID string, err error) {
+func (s *service) Add(ctx context.Context, title string, category_type string, songIDs []string) (categoryID string, err error) {
 	category := model.Category{
 		ID:          id.New(),
 		Title:       title,
-		Type:        type,
+		Type:        category_type,
 		SongIDs:     songIDs,
 	}
 
@@ -89,7 +89,7 @@ func (s *service) Add(ctx context.Context, title string, type string, songIDs []
 	return category.ID, nil
 }
 
-func (s *service) List(ctx context.Context) (categories []categoryResp, err error) {
+func (s *service) List(ctx context.Context) (categories []CategoryResp, err error) {
 	dbcategories, err := s.categoryRepo.List()
 	if err != nil {
 		return

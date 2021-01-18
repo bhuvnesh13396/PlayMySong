@@ -61,10 +61,10 @@ func MakeAddEndpoint(s Service) kit.Endpoint {
 	}
 }
 
-func (e AddEndpoint) Add(ctx context.Context, title string, type string, songIDs []string) (err error) {
+func (e AddEndpoint) Add(ctx context.Context, title string, category_type string, songIDs []string) (err error) {
 	request := addRequest{
 		Title:       title,
-		Type:        type,
+		Type:        category_type,
 		SongIDs:     songIDs,
 	}
 	_, err = e(ctx, request)
