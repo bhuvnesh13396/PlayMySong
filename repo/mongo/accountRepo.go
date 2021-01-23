@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/bhuvnesh13396/PlayMySong/model"
@@ -29,7 +28,7 @@ func (repo *accountRepo) Add(a model.Account) (err error) {
 		log.Fatal(err)
 		return
 	}
-	fmt.Println("New User created ")
+
 	return
 }
 
@@ -41,7 +40,6 @@ func (repo *accountRepo) Get(username string) (a model.Account, err error) {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Found a single document: %+v\n", a)
 	return
 }
 
@@ -53,7 +51,6 @@ func (repo *accountRepo) Get1(id string) (a model.Account, err error) {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Found a single document: %+v\n", a)
 	return
 }
 
@@ -71,7 +68,6 @@ func (repo *accountRepo) Update(userName string, name string) (err error) {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Name user updated !")
 	return
 }
 

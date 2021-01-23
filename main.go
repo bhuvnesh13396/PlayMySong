@@ -10,14 +10,13 @@ import (
 	"time"
 
 	"github.com/bhuvnesh13396/PlayMySong/account"
-	"github.com/bhuvnesh13396/PlayMySong/common/kit"
-	"github.com/bhuvnesh13396/PlayMySong/like"
 	"github.com/bhuvnesh13396/PlayMySong/auth"
 	"github.com/bhuvnesh13396/PlayMySong/category"
+	"github.com/bhuvnesh13396/PlayMySong/common/kit"
+	"github.com/bhuvnesh13396/PlayMySong/like"
 	"github.com/bhuvnesh13396/PlayMySong/playlist"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
 	"github.com/bhuvnesh13396/PlayMySong/song"
-	_ "github.com/lib/pq"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -52,7 +51,6 @@ func main() {
 
 	logger := kit.NewJSONLogger(os.Stdout)
 
-
 	accountRepo, err := mongoDB.NewAccountRepo(client)
 	if err != nil {
 		log.Fatal(err)
@@ -85,7 +83,6 @@ func main() {
 
 	authService := auth.NewService(sessionRepo, accountRepo)
 	authHandler := auth.NewHandler(authService)
-
 
 	accountService := account.NewService(accountRepo)
 	accountService = account.NewLogService(accountService, kit.LoggerWith(logger, "service", "Account"))

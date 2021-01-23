@@ -28,7 +28,6 @@ func (repo *categoryRepo) Add(c model.Category) (err error) {
 		log.Fatal(err)
 		return
 	}
-	fmt.Println("New Category created. ")
 	return
 }
 
@@ -36,12 +35,11 @@ func (repo *categoryRepo) Get(ID string) (c model.Category, err error) {
 	collection := repo.db.Database("test").Collection("categories")
 	filter := bson.D{{"id", ID}}
 	err = collection.FindOne(context.TODO(), filter).Decode(&c)
-	fmt.Println("err", err)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Found a single document: %+v\n", c)
 	return c, nil
 }
 
@@ -58,8 +56,7 @@ func (repo *categoryRepo) Update(ID string, songIDs []string) (err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println("Categories Updated !")
+	
 	return
 }
 

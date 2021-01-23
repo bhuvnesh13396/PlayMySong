@@ -2,7 +2,6 @@ package song
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/bhuvnesh13396/PlayMySong/common/err"
@@ -43,7 +42,7 @@ func (s *service) Get(ctx context.Context, songName string) (song SongResp, err 
 	}
 
 	tempSong, err := s.songRepo.Get(songName)
-	fmt.Printf("Song returned from DB %+v\n", tempSong)
+
 	if err != nil {
 		return
 	}

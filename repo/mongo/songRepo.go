@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/bhuvnesh13396/PlayMySong/model"
@@ -29,7 +28,7 @@ func (repo *songRepo) Add(s model.Song) (err error) {
 		log.Fatal(err)
 		return
 	}
-	fmt.Println("New song added to DB.")
+
 	return
 }
 
@@ -41,7 +40,6 @@ func (repo *songRepo) Get(songName string) (s model.Song, err error) {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Found a single document: %+v\n", s)
 	return
 }
 
@@ -49,12 +47,11 @@ func (repo *songRepo) Get1(ID string) (s model.Song, err error) {
 	collection := repo.db.Database("test").Collection("songs")
 	filter := bson.D{{"id", ID}}
 	err = collection.FindOne(context.TODO(), filter).Decode(&s)
-	fmt.Println("err", err)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Found a single document: %+v\n", s)
 	return s, nil
 }
 
@@ -72,7 +69,6 @@ func (repo *songRepo) Update(id string, title string) (err error) {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Song title updated !")
 	return
 }
 
