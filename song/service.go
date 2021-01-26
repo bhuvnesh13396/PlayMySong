@@ -175,6 +175,7 @@ func (s *service) List(ctx context.Context) (res []SongResp, err error) {
 }
 
 func (s *service) Add(ctx context.Context, title string, length time.Time, artistID string, composerID string, lyrics string, path string, img string) (songID string, err error) {
+
 	song := model.Song{
 		ID:         id.New(),
 		Title:      title,

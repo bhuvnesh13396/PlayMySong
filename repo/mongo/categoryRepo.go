@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/bhuvnesh13396/PlayMySong/model"
@@ -56,7 +55,7 @@ func (repo *categoryRepo) Update(ID string, songIDs []string) (err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	return
 }
 

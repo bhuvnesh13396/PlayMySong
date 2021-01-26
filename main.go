@@ -9,12 +9,16 @@ import (
 	"os"
 	"time"
 
+	"github.com/bhuvnesh13396/PlayMySong/upload"
+
 	"github.com/bhuvnesh13396/PlayMySong/account"
+
 	"github.com/bhuvnesh13396/PlayMySong/auth"
 	"github.com/bhuvnesh13396/PlayMySong/category"
 	"github.com/bhuvnesh13396/PlayMySong/common/kit"
 	"github.com/bhuvnesh13396/PlayMySong/like"
 	"github.com/bhuvnesh13396/PlayMySong/playlist"
+	"github.com/bhuvnesh13396/PlayMySong/repo/local"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
 	"github.com/bhuvnesh13396/PlayMySong/song"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -81,6 +85,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	uploadRepo, err := local.NewSongUploadRepo()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	authService := auth.NewService(sessionRepo, accountRepo)
 	authHandler := auth.NewHandler(authService)
 
@@ -105,6 +114,10 @@ func main() {
 	categoryService = category.NewLogService(categoryService, kit.LoggerWith(logger, "service", "Category"))
 	categoryHandler := category.NewHandler(categoryService)
 
+	uploadService := upload.NewService(uploadRepo)
+	//uploadService = upload.NewLogService(uploadService, kit.LoggerWith(logger, "service", "UploadService"))
+	uploadHandler := upload.NewHandler(uploadService)
+
 	r := http.NewServeMux()
 
 	r.Handle("/auth", authHandler)
@@ -124,6 +137,8 @@ func main() {
 
 	r.Handle("/category", categoryHandler)
 	r.Handle("/category/", categoryHandler)
+
+	r.Handle("/upload", uploadHandler)
 
 	log.Println("listening on", ":8080")
 	err = http.ListenAndServe(":8080", r)
