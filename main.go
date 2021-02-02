@@ -115,7 +115,7 @@ func main() {
 	categoryHandler := category.NewHandler(categoryService)
 
 	uploadService := upload.NewService(uploadRepo)
-	//uploadService = upload.NewLogService(uploadService, kit.LoggerWith(logger, "service", "UploadService"))
+	uploadService = upload.NewLogService(uploadService, kit.LoggerWith(logger, "service", "UploadService"))
 	uploadHandler := upload.NewHandler(uploadService)
 
 	r := http.NewServeMux()

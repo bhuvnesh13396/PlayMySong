@@ -23,14 +23,14 @@ func NewService(data model.Uploader) Service {
 func (s *service) Add(ctx context.Context, songID string, songFile []byte) error {
 
 	// Create new directory at given location
-	path := "PlayMySong/song_data/raw"
+	path := "/home/bhuvi/work/src/github.com/bhuvnesh13396/PlayMySong/song_data/raw"
 
 	data := model.SongUpload{
 		SongID:   songID,
 		SongFile: songFile,
 		Path:     path,
 	}
-
+	//fmt.Println("In service ::: Data ", data)
 	// Copy song at the given location
 	err := s.data.Upload(data)
 	return err
