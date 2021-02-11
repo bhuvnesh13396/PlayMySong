@@ -1,0 +1,4 @@
+song_data/raw/*
+!song_data/raw/.gitkeep
+song_data/converted/*
+!song_data/converted/.gitkeep
