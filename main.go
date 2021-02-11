@@ -20,7 +20,6 @@ import (
 	"github.com/bhuvnesh13396/PlayMySong/playlist"
 	"github.com/bhuvnesh13396/PlayMySong/repo/local"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
-	"github.com/bhuvnesh13396/PlayMySong/song"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -89,6 +88,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// uploadPath := "/home/bhuvi/work/src/github.com/bhuvnesh13396/PlayMySong/song_data/raw/123456789"
+	// fs := http.FileServer(http.Dir(uploadPath))
+	// http.Handle("/files/", http.StripPrefix("/files", fs))
 
 	authService := auth.NewService(sessionRepo, accountRepo)
 	authHandler := auth.NewHandler(authService)
@@ -98,9 +100,9 @@ func main() {
 	// accountService = account.NewAuthService(accountService, authService)
 	accountHandler := account.NewHandler(accountService)
 
-	songService := song.NewService(songRepo, accountRepo)
-	songService = song.NewLogService(songService, kit.LoggerWith(logger, "service", "Song"))
-	songHandler := song.NewHandler(songService)
+	//songService := song.NewService(songRepo, accountRepo)
+	//songService = song.NewLogService(songService, kit.LoggerWith(logger, "service", "Song"))
+	//songHandler := song.NewHandler(songService)
 
 	likeService := like.NewService(likeRepo)
 	likeService = like.NewLogService(likeService, kit.LoggerWith(logger, "service", "Like"))
@@ -126,8 +128,8 @@ func main() {
 	r.Handle("/account", accountHandler)
 	r.Handle("/account/", accountHandler)
 
-	r.Handle("/song", songHandler)
-	r.Handle("/song/", songHandler)
+	//r.Handle("/song", songHandler)
+	//r.Handle("/song/", songHandler)
 
 	r.Handle("/like", likeHandler)
 	r.Handle("/like/", likeHandler)

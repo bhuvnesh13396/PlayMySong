@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"net/url"
 
-	"sample/account"
-	"sample/common/auth/token"
-	"sample/common/kit"
+	"github.com/bhuvnesh13396/PlayMySong/account"
+	"github.com/bhuvnesh13396/PlayMySong/common/auth/token"
+	"github.com/bhuvnesh13396/PlayMySong/common/kit"
 )
 
 func New(instance string, client *http.Client) (account.Service, error) {

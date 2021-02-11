@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/bhuvnesh13396/PlayMySong/account"
 	"github.com/bhuvnesh13396/PlayMySong/common/err"
 	"github.com/bhuvnesh13396/PlayMySong/common/id"
 	"github.com/bhuvnesh13396/PlayMySong/model"
@@ -24,14 +25,14 @@ type Service interface {
 }
 
 type service struct {
-	songRepo    model.SongRepo
-	accountRepo model.AccountRepo
+	songRepo   model.SongRepo
+	accountSvc account.Service
 }
 
-func NewService(songRepo model.SongRepo, accountRepo model.AccountRepo) Service {
+func NewService(songRepo model.SongRepo, accountSvc account.Service) Service {
 	return &service{
-		songRepo:    songRepo,
-		accountRepo: accountRepo,
+		songRepo:   songRepo,
+		accountSvc: accountSvc,
 	}
 }
 
@@ -47,13 +48,13 @@ func (s *service) Get(ctx context.Context, songName string) (song SongResp, err 
 		return
 	}
 
-	composer, err := s.accountRepo.Get1(tempSong.ComposerID)
+	composer, err := s.accountSvc.Get1(ctx, tempSong.ComposerID)
 	if err != nil {
 		err = errNoComposerFound
 		return
 	}
 
-	artist, err := s.accountRepo.Get1(tempSong.ArtistID)
+	artist, err := s.accountSvc.Get1(ctx, tempSong.ArtistID)
 	if err != nil {
 		err = errNoArtistFound
 		return
@@ -90,12 +91,12 @@ func (s *service) Get1(ctx context.Context, ID string) (song SongResp, err error
 		return
 	}
 
-	composer, err := s.accountRepo.Get1(tempSong.ComposerID)
+	composer, err := s.accountSvc.Get1(ctx, tempSong.ComposerID)
 	if err != nil {
 		return SongResp{}, err
 	}
 
-	artist, err := s.accountRepo.Get1(tempSong.ArtistID)
+	artist, err := s.accountSvc.Get1(ctx, tempSong.ArtistID)
 	if err != nil {
 		return SongResp{}, err
 	}
@@ -138,11 +139,11 @@ func (s *service) List(ctx context.Context) (res []SongResp, err error) {
 	for i := range songs {
 		song := &songs[i]
 
-		artist, err := s.accountRepo.Get1(song.ArtistID)
+		artist, err := s.accountSvc.Get1(ctx, song.ArtistID)
 		if err != nil {
 			return []SongResp{}, err
 		}
-		composer, err := s.accountRepo.Get1(song.ComposerID)
+		composer, err := s.accountSvc.Get1(ctx, song.ComposerID)
 		if err != nil {
 			return []SongResp{}, err
 		}
