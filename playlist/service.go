@@ -6,6 +6,7 @@ import (
 	"github.com/bhuvnesh13396/PlayMySong/common/err"
 	"github.com/bhuvnesh13396/PlayMySong/common/id"
 	"github.com/bhuvnesh13396/PlayMySong/model"
+	"github.com/bhuvnesh13396/PlayMySong/song"
 )
 
 var (
@@ -21,13 +22,13 @@ type Service interface {
 }
 
 type service struct {
-	songRepo 			model.SongRepo
-	playlistRepo 	model.PlaylistRepo
+	songSvc      song.Service
+	playlistRepo model.PlaylistRepo
 }
 
-func NewService(songRepo model.SongRepo, playlistRepo model.PlaylistRepo) Service {
+func NewService(songSvc song.Service, playlistRepo model.PlaylistRepo) Service {
 	return &service{
-		songRepo: 	songRepo,
+		songSvc:      songSvc,
 		playlistRepo: playlistRepo,
 	}
 }
@@ -48,13 +49,13 @@ func (s *service) Get(ctx context.Context, ID string) (playlist PlaylistResp, er
 	songsInPlaylist := make([]Song, 0)
 
 	for _, songID := range songIDs {
-		song, err := s.songRepo.Get1(songID)
+		song, err := s.songSvc.Get1(ctx, songID)
 		if err != nil {
-			return PlaylistResp {}, err
+			return PlaylistResp{}, err
 		}
 
 		songResp := Song{
-			ID:     song.ID,
+			ID:     songID,
 			Title:  song.Title,
 			Length: song.Length,
 			Path:   song.Path,
@@ -100,13 +101,13 @@ func (s *service) List(ctx context.Context) (playlists []PlaylistResp, err error
 		songsInPlaylist := make([]Song, 0)
 
 		for _, songID := range songIDs {
-			song, err := s.songRepo.Get1(songID)
+			song, err := s.songSvc.Get1(ctx, songID)
 			if err != nil {
 				return nil, err
 			}
 
 			songResp := Song{
-				ID:     song.ID,
+				ID:     songID,
 				Title:  song.Title,
 				Length: song.Length,
 				Path:   song.Path,

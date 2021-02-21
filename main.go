@@ -16,7 +16,6 @@ import (
 	"github.com/bhuvnesh13396/PlayMySong/auth"
 	"github.com/bhuvnesh13396/PlayMySong/common/kit"
 	"github.com/bhuvnesh13396/PlayMySong/like"
-	"github.com/bhuvnesh13396/PlayMySong/playlist"
 	"github.com/bhuvnesh13396/PlayMySong/repo/local"
 	mongoDB "github.com/bhuvnesh13396/PlayMySong/repo/mongo"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -123,17 +122,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	songRepo, err := mongoDB.NewSongRepo(client)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	likeRepo, err := mongoDB.NewLikeRepo(client)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	playlistRepo, err := mongoDB.NewPlaylistRepo(client)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -162,10 +151,6 @@ func main() {
 	likeService = like.NewLogService(likeService, kit.LoggerWith(logger, "service", "Like"))
 	likeHandler := like.NewHandler(likeService)
 
-	playlistService := playlist.NewService(songRepo, playlistRepo)
-	playlistService = playlist.NewLogService(playlistService, kit.LoggerWith(logger, "service", "Playlist"))
-	playlistHandler := playlist.NewHandler(playlistService)
-
 	uploadService := upload.NewService(uploadRepo)
 	uploadService = upload.NewLogService(uploadService, kit.LoggerWith(logger, "service", "UploadService"))
 	uploadHandler := upload.NewHandler(uploadService)
@@ -183,9 +168,6 @@ func main() {
 
 	r.Handle("/like", likeHandler)
 	r.Handle("/like/", likeHandler)
-
-	r.Handle("/playlist", playlistHandler)
-	r.Handle("/playlist/", playlistHandler)
 
 	r.Handle("/upload", uploadHandler)
 
